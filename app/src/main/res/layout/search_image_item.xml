@@ -1,13 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:layout_margin="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="180dp"
+    android:layout_height="180dp"
+    android:layout_margin="8dp">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="8dp"
-        android:scaleType="centerCrop" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/preview_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/likes_image_preview"
+            tools:src = "@drawable/ic_user_icon"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+        <ImageView
+            android:id="@+id/likes_image_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_likes"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preview_image"
+            app:layout_constraintBottom_toTopOf = "@id/user_image_preview"/>
+
+        <TextView
+            android:id="@+id/likes_count_preview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/likes_image_preview"
+            app:layout_constraintTop_toTopOf="@id/likes_image_preview"
+            app:layout_constraintBottom_toBottomOf="@+id/likes_image_preview"
+            tools:text="1" />
+
+        <ImageView
+            android:id="@+id/user_image_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_user_icon"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/likes_image_preview"
+            app:layout_constraintBottom_toTopOf="@+id/tags_preview"/>
+
+        <TextView
+            android:id="@+id/user_name_preview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/user_image_preview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/user_image_preview"
+            app:layout_constraintBottom_toBottomOf="@+id/user_image_preview"
+            tools:text="AlenaFedyakshina" />
+
+        <TextView
+            android:id="@+id/tags_preview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_image_preview"
+            tools:text="Tags of the picture that will be shown there and can contain multiple lines of tags" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
