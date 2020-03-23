@@ -2,12 +2,18 @@ package com.example.pixabaysearch.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import kotlinx.android.synthetic.main.search_image_item.view.*
+import java.util.*
 import kotlin.properties.Delegates
 
 class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {
+
+    private var imageSelectedForExpantion = MutableLiveData<ImageModel>()
+    fun observeSelectedForExpantion(): LiveData<ImageModel> = imageSelectedForExpantion
 
     var renderables: List<ImageModel> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
@@ -22,6 +28,18 @@ class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
         holder.bind(renderables[position])
+        holder.item.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(it.context).also { builder ->
+                builder.setTitle("Open image")
+                builder.setMessage("Do you want to see more details?")
+
+                builder.setPositiveButton("Yes") { dialog, which ->
+                    this.imageSelectedForExpantion.value = renderables[position]
+                    dialog.dismiss()}
+                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            }.create()
+            alertDialog.show()
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

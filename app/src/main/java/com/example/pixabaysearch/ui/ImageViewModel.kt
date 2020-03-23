@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class ImageViewModel() : ViewModel() {
     private val failure: MutableLiveData<Failure> = MutableLiveData()
-    private val images = MutableLiveData<List<ImageModel>>()
+    val images = MutableLiveData<List<ImageModel>>()
 
     fun observeFailure(): LiveData<Failure> = failure
 

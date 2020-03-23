@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pixabaysearch.R
 import com.example.pixabaysearch.data.api.PixabayService
@@ -19,7 +20,7 @@ private const val BASE_URL = "https://pixabay.com/"
 class MainActivity : AppCompatActivity() {
 
     private val adapter: ImageAdapter = ImageAdapter()
-    private val viewModel: ImageViewModel = ImageViewModel()
+    private val viewModel: ImageViewModel by lazy { ViewModelProvider(this).get(ImageViewModel::class.java) }
     private lateinit var service: PixabayService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +44,15 @@ class MainActivity : AppCompatActivity() {
         viewModel.observeFailure().observe(this, Observer {
             Toast.makeText(this, "Error occurred, try again later", Toast.LENGTH_LONG).show()
         })
-        viewModel.getImages("fruits", service)
+        if (viewModel.images.value.isNullOrEmpty()) {
+            viewModel.getImages("fruits", service)
+        }
+
+        adapter.observeSelectedForExpantion().observe(this, Observer {
+            it?.let {
+                adapter.renderables = listOf(it)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
