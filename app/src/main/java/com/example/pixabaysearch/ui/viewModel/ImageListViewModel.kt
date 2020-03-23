@@ -1,4 +1,4 @@
-package com.example.pixabaysearch.ui
+package com.example.pixabaysearch.ui.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.pixabaysearch.data.api.PixabayService
 import com.example.pixabaysearch.data.error.Failure
 import com.example.pixabaysearch.model.PixabayResponse
+import com.example.pixabaysearch.ui.uiModel.ImageModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ImageViewModel() : ViewModel() {
+class ImageListViewModel : ViewModel() {
     private val failure: MutableLiveData<Failure> = MutableLiveData()
     val images = MutableLiveData<List<ImageModel>>()
 
@@ -52,5 +53,4 @@ class ImageViewModel() : ViewModel() {
     protected fun handleFailure(failure: Failure) {
         this.failure.value = failure
     }
-
 }

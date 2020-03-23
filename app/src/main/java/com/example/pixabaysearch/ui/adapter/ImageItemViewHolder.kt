@@ -1,7 +1,9 @@
-package com.example.pixabaysearch.ui
+package com.example.pixabaysearch.ui.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pixabaysearch.ui.uiModel.ImageModel
+import com.example.pixabaysearch.ui.utils.loadImage
 import kotlinx.android.synthetic.main.search_image_item.view.*
 
 class ImageItemViewHolder(var item: View) : RecyclerView.ViewHolder(item) {

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/full_size_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/user_name_details_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/user_name_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/likes_icon_details_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/user_name_text_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/full_size_image"
+        android:src="@drawable/ic_user_icon"
+        android:tint="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/user_name_text_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/user_name_details_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/user_name_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/user_name_details_fragment" />
+
+    <ImageView
+        android:id="@+id/likes_icon_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tags_details_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/likes_count_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_name_details_fragment"
+        android:src="@drawable/ic_likes"
+        android:tint="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/likes_count_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/likes_icon_details_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/favourites_icon_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/likes_icon_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/likes_icon_details_fragment" />
+
+    <ImageView
+        android:id="@+id/favourites_icon_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/likes_count_details_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/favourites_count_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/likes_count_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/likes_count_details_fragment"
+        android:src="@drawable/ic_favourites_icon"
+        android:tint="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/favourites_count_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/favourites_icon_details_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/comments_icon_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/favourites_icon_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/favourites_icon_details_fragment" />
+
+    <ImageView
+        android:id="@+id/comments_icon_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/favourites_count_details_fragment"
+        app:layout_constraintEnd_toStartOf="@+id/comments_count_details_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/favourites_count_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/favourites_count_details_fragment"
+        android:src="@drawable/ic_comment_icon"
+        android:tint="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/comments_count_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/comments_icon_details_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/comments_icon_details_fragment"
+        app:layout_constraintTop_toTopOf="@+id/comments_icon_details_fragment" />
+
+    <TextView
+        android:id="@+id/tags_details_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/likes_icon_details_fragment" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

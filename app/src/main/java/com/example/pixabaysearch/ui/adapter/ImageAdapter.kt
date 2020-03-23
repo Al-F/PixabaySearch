@@ -1,4 +1,4 @@
-package com.example.pixabaysearch.ui
+package com.example.pixabaysearch.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import java.util.*
+import com.example.pixabaysearch.ui.uiModel.ImageModel
 import kotlin.properties.Delegates
 
 class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {

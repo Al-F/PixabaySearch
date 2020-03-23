@@ -1,4 +1,4 @@
-package com.example.pixabaysearch.ui
+package com.example.pixabaysearch.ui.utils
 
 import android.graphics.drawable.Drawable
 import android.widget.ImageView

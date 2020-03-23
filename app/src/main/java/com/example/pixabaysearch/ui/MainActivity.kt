@@ -1,90 +1,27 @@
 package com.example.pixabaysearch.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.view.Menu
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.data.api.PixabayService
-import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.pixabaysearch.ui.uiModel.ImageModel
 
-private const val BASE_URL = "https://pixabay.com/"
 
-class MainActivity : AppCompatActivity() {
-
-    private val adapter: ImageAdapter = ImageAdapter()
-    private val viewModel: ImageViewModel by lazy { ViewModelProvider(this).get(ImageViewModel::class.java) }
-    private lateinit var service: PixabayService
-
+class MainActivity : AppCompatActivity(), ImageListFragment.OnImageSelected {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(toolbar_main)
-
-        setupRecyclerView(applicationContext)
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        service = retrofit.create(PixabayService::class.java)
-
-        viewModel.observeImages().observe(this, Observer {
-            it?.let {
-                adapter.renderables = it
-            }
-        })
-        viewModel.observeFailure().observe(this, Observer {
-            Toast.makeText(this, "Error occurred, try again later", Toast.LENGTH_LONG).show()
-        })
-        if (viewModel.images.value.isNullOrEmpty()) {
-            viewModel.getImages("fruits", service)
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.root_layout, ImageListFragment.newInstance(), "imageList").commit()
         }
-
-        adapter.observeSelectedForExpantion().observe(this, Observer {
-            it?.let {
-                adapter.renderables = listOf(it)
-            }
-        })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.search_item, menu)
-        val menuSearchItem = menu?.findItem(R.id.action_search)
-        val searchView = menuSearchItem?.actionView as SearchView
-        searchView.queryHint = applicationContext.getString(R.string.search_hint)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query == null) {
-                    Toast.makeText(
-                        applicationContext,
-                        applicationContext.getString(R.string.search_empty_warning),
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    viewModel.getImages(query, service)
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-
-        })
-        return super.onCreateOptionsMenu(menu)
+    override fun onImageSelected(imageModel: ImageModel) {
+        val imageDetailsFragment = ImageDetailsFragment.newInstance(imageModel)
+        supportFragmentManager.beginTransaction().replace(R.id.root_layout, imageDetailsFragment, "imageDetails")
+            .addToBackStack(null).commit()
     }
 
-    private fun setupRecyclerView(context: Context) {
-        recyclerView.layoutManager =
-            GridLayoutManager(this, calculateNoOfColumns(context = context, columnWidthDp = 180F))
-        recyclerView.adapter = adapter
-    }
+
 }
