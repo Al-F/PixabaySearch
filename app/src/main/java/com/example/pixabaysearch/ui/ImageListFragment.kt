@@ -22,14 +22,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ImageListFragment : Fragment() {
-
-    private val adapter: ImageAdapter = ImageAdapter()
     private val viewModel: ImageListViewModel by lazy { ViewModelProvider(this).get(
         ImageListViewModel::class.java) }
 
     private lateinit var service: PixabayService
+    private lateinit var adapter: ImageAdapter
     private lateinit var imageSelectedListener: OnImageSelected
-    private lateinit var observer : Observer<ImageModel>
 
     companion object {
         fun newInstance() = ImageListFragment()
@@ -53,6 +51,8 @@ class ImageListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.image_list_fragment, container, false)
         val activity = activity as Context
+        adapter = ImageAdapter()
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
         recyclerView.adapter = adapter
