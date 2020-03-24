@@ -30,9 +30,9 @@ class ImageListFragment : Fragment() {
     private lateinit var imageSelectedListener: OnImageSelected
 
     companion object {
-        fun newInstance() = ImageListFragment()
         private const val BASE_URL = "https://pixabay.com/"
 
+        fun newInstance() = ImageListFragment()
     }
 
     override fun onAttach(context: Context) {
