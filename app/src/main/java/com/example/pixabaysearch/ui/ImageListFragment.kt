@@ -13,19 +13,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.data.api.PixabayService
 import com.example.pixabaysearch.ui.adapter.ImageAdapter
 import com.example.pixabaysearch.ui.uiModel.ImageModel
 import com.example.pixabaysearch.ui.viewModel.ImageListViewModel
 import kotlinx.android.synthetic.main.image_list_fragment.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ImageListFragment : Fragment() {
     private val viewModel: ImageListViewModel by lazy { ViewModelProvider(this).get(
         ImageListViewModel::class.java) }
 
-    private lateinit var service: PixabayService
     private lateinit var adapter: ImageAdapter
     private lateinit var imageSelectedListener: OnImageSelected
 
@@ -57,11 +53,6 @@ class ImageListFragment : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
         recyclerView.adapter = adapter
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        service = retrofit.create(PixabayService::class.java)
         return view
     }
 
@@ -70,7 +61,7 @@ class ImageListFragment : Fragment() {
 
         search_image.setOnEditorActionListener { v, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
-                viewModel.getImages(v.text.toString(), service)
+                viewModel.getImages(v.text.toString())
                 v.text = ""
                 v.clearFocus()
                 false
@@ -78,6 +69,7 @@ class ImageListFragment : Fragment() {
                 false
             }
         }
+
         viewModel.observeImages().observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.renderables = it
@@ -87,7 +79,7 @@ class ImageListFragment : Fragment() {
             Toast.makeText(requireContext(), "Error occurred, try again later", Toast.LENGTH_LONG).show()
         })
         if (viewModel.images.value.isNullOrEmpty()) {
-            viewModel.getImages("fruits", service)
+            viewModel.getImages("fruits")
         }
 
         adapter.observeSelectedForExpantion().observe(viewLifecycleOwner, Observer {
