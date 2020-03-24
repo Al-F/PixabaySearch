@@ -26,8 +26,6 @@ class ImageListFragment : Fragment() {
     private lateinit var imageSelectedListener: OnImageSelected
 
     companion object {
-        private const val BASE_URL = "https://pixabay.com/"
-
         fun newInstance() = ImageListFragment()
     }
 

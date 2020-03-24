@@ -14,7 +14,7 @@ interface PixabayService {
     fun getImages(@Query("key") key: String, @Query("q") search: String): Call<PixabayResponse>
 
     companion object {
-        val retrofit = Retrofit.Builder()
+        val retrofit: Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
