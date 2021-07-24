@@ -1,0 +1,32 @@
+package com.example.pixabaysearch.data
+
+import com.example.pixabaysearch.data.api.PixabayService
+import com.example.pixabaysearch.model.PixabayResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import javax.inject.Inject
+
+class PixabayInteractor @Inject constructor() {
+    fun getListOfImages(searchQuery: String): PixabayResponse {
+        val call = PixabayService.retrofit.create(PixabayService::class.java)
+            .getImages("15612596-c20b2282ebade3a0e69a30c78", searchQuery)
+        var responseBody: PixabayResponse? = null
+        call.clone().enqueue(object : Callback<PixabayResponse> {
+            override fun onResponse(
+                call: Call<PixabayResponse>,
+                response: Response<PixabayResponse>
+            ) {
+                if (response.code() == 200) {
+                    responseBody = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<PixabayResponse>, t: Throwable) {
+
+            }
+        })
+        return responseBody ?: PixabayResponse(0, 0, emptyList())
+    }
+
+}

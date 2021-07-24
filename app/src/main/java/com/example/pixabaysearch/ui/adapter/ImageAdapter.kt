@@ -8,9 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
 import com.example.pixabaysearch.ui.uiModel.ImageModel
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {
+class ImageAdapter @Inject constructor() : RecyclerView.Adapter<ImageItemViewHolder>() {
 
     private var imageSelectedForExpantion = MutableLiveData<ImageModel>()
     fun observeSelectedForExpantion(): LiveData<ImageModel> = imageSelectedForExpantion
@@ -35,7 +36,8 @@ class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {
 
                 builder.setPositiveButton("Yes") { dialog, which ->
                     this.imageSelectedForExpantion.value = renderables[position]
-                    dialog.dismiss()}
+                    dialog.dismiss()
+                }
                 builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             }.create()
             alertDialog.show()

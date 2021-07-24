@@ -16,27 +16,26 @@ import com.example.pixabaysearch.R
 import com.example.pixabaysearch.ui.adapter.ImageAdapter
 import com.example.pixabaysearch.ui.uiModel.ImageModel
 import com.example.pixabaysearch.ui.viewModel.ImageListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.image_list_fragment.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ImageListFragment : Fragment() {
-    private val viewModel: ImageListViewModel by lazy { ViewModelProvider(this).get(
-        ImageListViewModel::class.java) }
 
-    private lateinit var adapter: ImageAdapter
-    private lateinit var imageSelectedListener: OnImageSelected
+    @Inject lateinit var adapter: ImageAdapter
 
-    companion object {
-        fun newInstance() = ImageListFragment()
+    private val viewModel: ImageListViewModel by lazy {
+        ViewModelProvider(this).get(
+            ImageListViewModel::class.java
+        )
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (context is OnImageSelected){
-            imageSelectedListener = context
-        } else{
-            throw ClassCastException("$context must implement OnImageSelected.")
-        }
+    fun onImageSelected(imageModel: ImageModel) {
+        val imageDetailsFragment = ImageDetailsFragment.newInstance(imageModel)
+        parentFragmentManager.beginTransaction()
+            .add(R.id.main_fragment, imageDetailsFragment, "imageDetails")
+            .addToBackStack(null).commit()
     }
 
     override fun onCreateView(
@@ -45,7 +44,6 @@ class ImageListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.image_list_fragment, container, false)
         val activity = activity as Context
-        adapter = ImageAdapter()
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(activity, 2)
@@ -54,11 +52,12 @@ class ImageListFragment : Fragment() {
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
 
         search_image.setOnEditorActionListener { v, actionId, _ ->
-            if(actionId == EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewModel.getImages(v.text.toString())
                 v.text = ""
                 v.clearFocus()
@@ -74,19 +73,14 @@ class ImageListFragment : Fragment() {
             }
         })
         viewModel.observeFailure().observe(viewLifecycleOwner, Observer {
-            Toast.makeText(requireContext(), "Error occurred, try again later", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Error occurred, try again later", Toast.LENGTH_LONG)
+                .show()
         })
         if (viewModel.images.value.isNullOrEmpty()) {
             viewModel.getImages("fruits")
         }
 
-        adapter.observeSelectedForExpantion().observe(viewLifecycleOwner, Observer {
-            imageSelectedListener.onImageSelected(it)
-        })
-
-    }
-
-    interface OnImageSelected{
-        fun onImageSelected(imageModel: ImageModel)
+        adapter.observeSelectedForExpantion()
+            .observe(viewLifecycleOwner) { onImageSelected(it) }
     }
 }

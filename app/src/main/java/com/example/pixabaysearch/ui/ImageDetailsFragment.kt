@@ -9,10 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.pixabaysearch.R
 import com.example.pixabaysearch.ui.uiModel.ImageModel
 import com.example.pixabaysearch.ui.utils.loadImage
-import com.example.pixabaysearch.ui.viewModel.ImageDetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.image_details_fragment.*
+import javax.inject.Inject
 
-class ImageDetailsFragment : Fragment() {
+@AndroidEntryPoint
+class ImageDetailsFragment: Fragment() {
 
     companion object {
 
@@ -27,8 +29,6 @@ class ImageDetailsFragment : Fragment() {
         }
     }
 
-    private lateinit var viewModel: ImageDetailsViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +38,7 @@ class ImageDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageModel = arguments!!.getSerializable(IMAGE_MODEL) as ImageModel
+        val imageModel = requireArguments().getSerializable(IMAGE_MODEL) as ImageModel
         full_size_image.loadImage(imageModel.fullSizeUrl)
         user_name_text_details_fragment.text = imageModel.userName
         likes_count_details_fragment.text = imageModel.likes.toString()
@@ -46,10 +46,4 @@ class ImageDetailsFragment : Fragment() {
         comments_count_details_fragment.text = imageModel.comments.toString()
         tags_details_fragment.text = imageModel.tags
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ImageDetailsViewModel::class.java)
-    }
-
 }
