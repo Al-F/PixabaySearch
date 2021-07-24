@@ -7,17 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private const val BASE_URL = "https://pixabay.com/"
-
-interface PixabayService {
+interface PixabayApi {
     @GET("/api/?")
     fun getImages(@Query("key") key: String, @Query("q") search: String): Call<PixabayResponse>
-
-    companion object {
-        val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
 }
 

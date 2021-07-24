@@ -4,14 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pixabaysearch.data.PixabayInteractor
-import com.example.pixabaysearch.data.api.PixabayService
 import com.example.pixabaysearch.data.error.Failure
 import com.example.pixabaysearch.model.PixabayResponse
 import com.example.pixabaysearch.ui.uiModel.ImageModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
