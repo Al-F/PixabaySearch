@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 private const val BASE_URL = "https://pixabay.com/"
 
@@ -28,6 +29,7 @@ class AppModule{
     fun provideBaseUrl() = BASE_URL
 
     @Provides
+    @Singleton
     fun provideRetrofit(BASE_URL: String): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BASE_URL)

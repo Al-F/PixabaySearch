@@ -16,8 +16,8 @@ import com.example.pixabaysearch.R
 import com.example.pixabaysearch.ui.adapter.ImageAdapter
 import com.example.pixabaysearch.ui.uiModel.ImageModel
 import com.example.pixabaysearch.ui.viewModel.ImageListViewModel
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.image_list_fragment.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,8 +55,7 @@ class ImageListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        search_image.setOnEditorActionListener { v, actionId, _ ->
+        view.findViewById<TextInputEditText>(R.id.search_image).setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 viewModel.getImages(v.text.toString())
                 v.text = ""

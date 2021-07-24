@@ -11,4 +11,3 @@ interface PixabayApi {
     @GET("/api/?")
     fun getImages(@Query("key") key: String, @Query("q") search: String): Call<PixabayResponse>
 }
-
