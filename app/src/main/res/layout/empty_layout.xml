@@ -12,15 +12,16 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:srcCompat="@drawable/ic_retry"
-        app:tint="@color/colorPrimaryTranslucent"
+        app:tint="@color/teal_600_44"
         tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="232dp" />
+        tools:layout_editor_absoluteY="232dp"
+        android:contentDescription="@string/no_results" />
     <TextView
         android:id="@+id/empty_layout_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/crimson_900"
         android:text="@string/general_error_message"
         />
 </LinearLayout>
