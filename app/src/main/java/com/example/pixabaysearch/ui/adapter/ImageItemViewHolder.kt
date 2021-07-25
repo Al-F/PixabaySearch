@@ -5,7 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.ui.uiModel.ImageModel
+import com.example.pixabaysearch.ui.model.ImageModel
 import com.example.pixabaysearch.ui.utils.loadImage
 
 class ImageItemViewHolder(var item: View) : RecyclerView.ViewHolder(item) {

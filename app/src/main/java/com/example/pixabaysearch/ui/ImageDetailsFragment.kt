@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pixabaysearch.R
 import com.example.pixabaysearch.ui.utils.loadImage
-import com.example.pixabaysearch.ui.viewModel.ImageListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

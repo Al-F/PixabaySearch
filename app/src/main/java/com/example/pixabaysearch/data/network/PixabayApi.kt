@@ -1,6 +1,6 @@
-package com.example.pixabaysearch.data.api
+package com.example.pixabaysearch.data.network
 
-import com.example.pixabaysearch.domain.PixabayResponseDomain
+import com.example.pixabaysearch.data.domain.PixabayResponseDomain
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -1,4 +1,4 @@
-package com.example.pixabaysearch.data.api
+package com.example.pixabaysearch.data.network
 
 class RestConfig {
     companion object {

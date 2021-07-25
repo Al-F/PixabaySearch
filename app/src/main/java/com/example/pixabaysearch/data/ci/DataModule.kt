@@ -1,9 +1,9 @@
-package com.example.pixabaysearch.data
+package com.example.pixabaysearch.data.ci
 
-import com.example.pixabaysearch.data.api.PixabayApi
-import com.example.pixabaysearch.data.api.PixabayInteractor
-import com.example.pixabaysearch.data.api.PixabayInteractorNetworkImpl
-import com.example.pixabaysearch.data.api.RestConfig
+import com.example.pixabaysearch.data.network.PixabayApi
+import com.example.pixabaysearch.data.network.PixabayInteractor
+import com.example.pixabaysearch.data.network.PixabayInteractorNetworkImpl
+import com.example.pixabaysearch.data.network.RestConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

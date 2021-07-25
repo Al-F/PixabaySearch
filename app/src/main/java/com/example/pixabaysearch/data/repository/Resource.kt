@@ -1,6 +1,6 @@
-package com.example.pixabaysearch.data
+package com.example.pixabaysearch.data.repository
 
-import com.example.pixabaysearch.data.api.Status
+import com.example.pixabaysearch.data.network.Status
 
 data class Resource<out T>(val status: Status, val data: T, val message: String?) {
     companion object {

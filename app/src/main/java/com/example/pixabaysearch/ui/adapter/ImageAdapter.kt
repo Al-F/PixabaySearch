@@ -2,11 +2,9 @@ package com.example.pixabaysearch.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.ui.uiModel.ImageModel
+import com.example.pixabaysearch.ui.model.ImageModel
 import javax.inject.Inject
 import kotlin.properties.Delegates
 

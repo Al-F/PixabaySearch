@@ -1,7 +1,7 @@
 package com.example.pixabaysearch.data.repository
 
-import com.example.pixabaysearch.domain.PixabayResponseDomain
-import com.example.pixabaysearch.data.api.PixabayInteractor
+import com.example.pixabaysearch.data.domain.PixabayResponseDomain
+import com.example.pixabaysearch.data.network.PixabayInteractor
 import javax.inject.Inject
 
 class PixabayRepository @Inject constructor(

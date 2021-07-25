@@ -1,6 +1,6 @@
-package com.example.pixabaysearch.ui.uiModel
+package com.example.pixabaysearch.ui.model
 
-import com.example.pixabaysearch.domain.PixabayResponseDomain
+import com.example.pixabaysearch.data.domain.PixabayResponseDomain
 import javax.inject.Inject
 
 class ImageModelMapper @Inject constructor() {

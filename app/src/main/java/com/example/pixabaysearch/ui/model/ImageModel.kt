@@ -1,4 +1,4 @@
-package com.example.pixabaysearch.ui.uiModel
+package com.example.pixabaysearch.ui.model
 
 import java.io.Serializable
 

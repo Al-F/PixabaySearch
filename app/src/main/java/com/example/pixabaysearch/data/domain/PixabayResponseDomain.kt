@@ -1,4 +1,4 @@
-package com.example.pixabaysearch.domain
+package com.example.pixabaysearch.data.domain
 
 import com.google.gson.annotations.SerializedName
 

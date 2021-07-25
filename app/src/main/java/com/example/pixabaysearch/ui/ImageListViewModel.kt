@@ -1,14 +1,14 @@
-package com.example.pixabaysearch.ui.viewModel
+package com.example.pixabaysearch.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pixabaysearch.data.Resource
+import com.example.pixabaysearch.data.repository.Resource
 import com.example.pixabaysearch.data.repository.NetworkHelper
 import com.example.pixabaysearch.data.repository.PixabayRepository
-import com.example.pixabaysearch.ui.uiModel.ImageModel
-import com.example.pixabaysearch.ui.uiModel.ImageModelMapper
+import com.example.pixabaysearch.ui.model.ImageModel
+import com.example.pixabaysearch.ui.model.ImageModelMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,19 +19,19 @@ class ImageListViewModel @Inject constructor(
     private val modelMapper: ImageModelMapper,
     networkHelper: NetworkHelper
 ) : ViewModel() {
-    private val _response = MutableLiveData<Resource<List<ImageModel>>>()
-    val response: LiveData<Resource<List<ImageModel>>>
-        get() = _response
+    private val _images = MutableLiveData<Resource<List<ImageModel>>>()
+    val images: LiveData<Resource<List<ImageModel>>>
+        get() = _images
 
     var selectedImage: ImageModel = ImageModel()
 
     init {
-        _response.postValue(Resource.loading(emptyList()))
+        _images.postValue(Resource.loading(emptyList()))
 
         if (networkHelper.isNetworkConnected()) {
             fetchImages("cat")
         } else {
-            _response.postValue(
+            _images.postValue(
                 Resource.error(
                     data = emptyList(),
                     message = CONNECTION_ERROR_MSG
@@ -43,11 +43,11 @@ class ImageListViewModel @Inject constructor(
     fun fetchImages(searchQuery: String) {
         viewModelScope.launch {
             try {
-                _response.value = Resource.success(
+                _images.value = Resource.success(
                     data = modelMapper.map(repository.getListOfImages(searchQuery))
                 )
             } catch (exception: Exception) {
-                _response.value = Resource.error(
+                _images.value = Resource.error(
                     data = emptyList(),
                     message = exception.message ?: GENERAL_ERROR_MSG
                 )

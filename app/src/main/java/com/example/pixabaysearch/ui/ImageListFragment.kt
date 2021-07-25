@@ -1,6 +1,5 @@
 package com.example.pixabaysearch.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,10 +15,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.data.api.Status
+import com.example.pixabaysearch.data.network.Status
 import com.example.pixabaysearch.ui.adapter.ImageAdapter
-import com.example.pixabaysearch.ui.uiModel.ImageModel
-import com.example.pixabaysearch.ui.viewModel.ImageListViewModel
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -39,11 +36,13 @@ class ImageListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.image_list_fragment, container, false)
-        val activity = activity as Context
 
-        adapter.setOnClickListener { imageModel -> onImageSelected(imageModel) }
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        adapter.setOnClickListener { imageModel ->
+            viewModel.selectedImage = imageModel
+            findNavController().navigate(R.id.action_imageListFragment_to_imageDetailsFragment)
+        }
         recyclerView.adapter = adapter
 
         return view
@@ -57,7 +56,6 @@ class ImageListFragment : Fragment() {
             .setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     viewModel.fetchImages(v.text.toString())
-                    v.text = ""
                     v.clearFocus()
                     false
                 } else {
@@ -66,15 +64,10 @@ class ImageListFragment : Fragment() {
             }
     }
 
-    private fun onImageSelected(imageModel: ImageModel) {
-        viewModel.selectedImage = imageModel
-        findNavController().navigate(R.id.action_imageListFragment_to_imageDetailsFragment)
-    }
-
     private fun setupObserver(view: View) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
         val emptyLayout = view.findViewById<LinearLayout>(R.id.empty_layout)
-        viewModel.response.observe(viewLifecycleOwner) { resource ->
+        viewModel.images.observe(viewLifecycleOwner) { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
                     adapter.data = resource.data
