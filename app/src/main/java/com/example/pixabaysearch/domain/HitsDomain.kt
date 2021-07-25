@@ -1,8 +1,8 @@
-package com.example.pixabaysearch.model
+package com.example.pixabaysearch.domain
 
 import com.google.gson.annotations.SerializedName
 
-class Hits(
+class HitsDomain(
     @SerializedName("id") val id : Int,
     @SerializedName("pageURL") val pageURL : String,
     @SerializedName("type") val type : String,
