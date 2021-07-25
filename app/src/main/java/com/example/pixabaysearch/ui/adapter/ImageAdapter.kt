@@ -29,19 +29,6 @@ class ImageAdapter @Inject constructor() : RecyclerView.Adapter<ImageItemViewHol
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
         holder.bind(renderables[position])
-        holder.item.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(it.context).also { builder ->
-                builder.setTitle("Open image")
-                builder.setMessage("Do you want to see more details?")
-
-                builder.setPositiveButton("Yes") { dialog, which ->
-                    this.imageSelectedForExpantion.value = renderables[position]
-                    dialog.dismiss()
-                }
-                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-            }.create()
-            alertDialog.show()
-        }
     }
 
     override fun getItemViewType(position: Int): Int {

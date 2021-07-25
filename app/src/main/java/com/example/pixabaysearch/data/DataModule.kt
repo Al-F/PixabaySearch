@@ -1,37 +1,64 @@
 package com.example.pixabaysearch.data
 
-import dagger.Binds
+import com.example.pixabaysearch.data.api.PixabayApi
+import com.example.pixabaysearch.data.api.PixabayInteractor
+import com.example.pixabaysearch.data.api.PixabayInteractorNetworkImpl
+import com.example.pixabaysearch.data.api.RestConfig
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-
-private const val BASE_URL = "https://pixabay.com/"
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class DataModule {
-
-    @Binds
-    abstract fun bindPixabayInteractor(
-        pixabayInteractorImpl: PixabayInteractorImpl
-    ): PixabayInteractor
-}
 
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule{
-
     @Provides
-    fun provideBaseUrl() = BASE_URL
+    @Singleton
+    fun provideApiInteractor(retrofit: Retrofit): PixabayApi =
+        retrofit.create(PixabayApi::class.java)
 
     @Provides
     @Singleton
-    fun provideRetrofit(BASE_URL: String): Retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
-        .build()
+    fun provideApiInteractorImpl(pixabayInteractorNetworkImpl: PixabayInteractorNetworkImpl):
+            PixabayInteractor = pixabayInteractorNetworkImpl
+
+    @Provides
+    fun provideBaseUrl() = RestConfig.API_SERVER
+
+    @Provides
+    fun provideGson(): Gson = GsonBuilder().setLenient().create()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient() =
+        if (RestConfig.DEBUG) {
+            val logger = HttpLoggingInterceptor()
+            logger.level = HttpLoggingInterceptor.Level.BODY
+            OkHttpClient.Builder()
+                .addInterceptor(logger)
+                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .build()
+        } else
+            OkHttpClient.Builder()
+                .readTimeout(100, TimeUnit.SECONDS)
+                .connectTimeout(100, TimeUnit.SECONDS)
+                .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient, BaseURL: String): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BaseURL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 }

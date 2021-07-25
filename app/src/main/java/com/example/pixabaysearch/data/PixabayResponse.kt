@@ -1,5 +1,6 @@
-package com.example.pixabaysearch.model
+package com.example.pixabaysearch.data
 
+import com.example.pixabaysearch.model.Hits
 import com.google.gson.annotations.SerializedName
 
 class PixabayResponse(
