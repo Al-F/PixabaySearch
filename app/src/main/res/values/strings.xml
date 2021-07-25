@@ -3,4 +3,16 @@
     <string name="search">Search</string>
     <string name="search_hint">What are you looking for?</string>
     <string name="search_empty_warning">Have you forgot what you were looking for?</string>
+    <string name="general_error_message">Ouch! Something went wrong…</string>
+    <string name="initial_count">0</string>
+    <string name="no_tags_available">No tags available</string>
+    <string name="unknown_user">Unknown user</string>
+    <string name="no_results">No results</string>
+    <string name="full_size_image">Full size image</string>
+    <string name="user_icon">User icon</string>
+    <string name="amount_of_people_who_saved_picture">Amount of people who saved picture</string>
+    <string name="comments">Comments</string>
+    <string name="small_version_of_image">Small version of image</string>
+    <string name="amount_of_likes">Amount of likes</string>
+    <string name="author_name">Author name</string>
 </resources>

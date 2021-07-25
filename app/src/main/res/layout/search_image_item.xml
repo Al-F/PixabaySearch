@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card_view_preview"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_preview"
     android:layout_width="@dimen/card_view_width"
     android:layout_height="@dimen/card_view_height"
     android:layout_margin="@dimen/margin_general">
@@ -13,19 +13,20 @@
 
         <ImageView
             android:id="@+id/preview_image"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="@dimen/margin_general"
             android:layout_marginStart="@dimen/margin_general"
+            android:layout_marginTop="@dimen/margin_general"
             android:layout_marginEnd="@dimen/margin_general"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/likes_image_preview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/likes_image_preview"
-            tools:src = "@drawable/ic_user_icon"
             tools:layout_editor_absoluteX="@dimen/margin_general"
-            tools:layout_editor_absoluteY="@dimen/margin_general" />
+            tools:layout_editor_absoluteY="@dimen/margin_general"
+            tools:src="@drawable/ic_user_icon"
+            android:contentDescription="@string/small_version_of_image" />
 
         <ImageView
             android:id="@+id/likes_image_preview"
@@ -34,19 +35,21 @@
             android:layout_marginStart="@dimen/margin_general"
             android:layout_marginTop="@dimen/margin_general"
             android:src="@drawable/ic_likes"
-            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/user_image_preview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/preview_image"
-            app:layout_constraintBottom_toTopOf = "@id/user_image_preview"/>
+            app:tint="?attr/colorPrimary"
+            android:contentDescription="@string/amount_of_likes" />
 
         <TextView
             android:id="@+id/likes_count_preview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_general"
-            app:layout_constraintStart_toEndOf="@+id/likes_image_preview"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/likes_image_preview"
+            app:layout_constraintStart_toEndOf="@id/likes_image_preview"
             app:layout_constraintTop_toTopOf="@id/likes_image_preview"
-            app:layout_constraintBottom_toBottomOf="@+id/likes_image_preview"
             tools:text="1" />
 
         <ImageView
@@ -55,35 +58,34 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_general"
             android:src="@drawable/ic_user_icon"
-            android:tint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/tags_preview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/likes_image_preview"
-            app:layout_constraintBottom_toTopOf="@+id/tags_preview"/>
+            app:tint="?attr/colorPrimary"
+            android:contentDescription="@string/author_name" />
 
         <TextView
             android:id="@+id/user_name_preview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_general"
-            android:layout_marginEnd="@dimen/margin_general"
-            android:maxLines="1"
+            android:layout_marginHorizontal="@dimen/margin_general"
             android:ellipsize="end"
-            app:layout_constraintStart_toEndOf="@id/user_image_preview"
+            android:maxLines="1"
+            android:textAlignment="viewStart"
+            app:layout_constraintBottom_toBottomOf="@id/user_image_preview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/user_image_preview"
-            app:layout_constraintBottom_toBottomOf="@+id/user_image_preview"
+            app:layout_constraintStart_toEndOf="@id/user_image_preview"
+            app:layout_constraintTop_toTopOf="@id/user_image_preview"
             tools:text="AlenaFedyakshina" />
 
         <TextView
             android:id="@+id/tags_preview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_general"
-            android:layout_marginStart="@dimen/margin_general"
-            android:layout_marginEnd="@dimen/margin_general"
-            android:layout_marginBottom="@dimen/margin_general"
-            android:maxLines="1"
+            android:layout_margin="@dimen/margin_general"
             android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

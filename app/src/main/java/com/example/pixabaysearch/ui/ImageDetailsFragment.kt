@@ -4,30 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.ui.uiModel.ImageModel
 import com.example.pixabaysearch.ui.utils.loadImage
-import com.example.pixabaysearch.ui.viewModel.ImageDetailsViewModel
-import kotlinx.android.synthetic.main.image_details_fragment.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ImageDetailsFragment : Fragment() {
 
-    companion object {
-
-        private const val IMAGE_MODEL = "image_model"
-
-        fun newInstance(imageModel: ImageModel): ImageDetailsFragment {
-            val args = Bundle()
-            args.putSerializable(IMAGE_MODEL, imageModel)
-            val fragment = ImageDetailsFragment()
-            fragment.arguments = args
-            return fragment
-        }
+    private val viewModel: ImageListViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(ImageListViewModel::class.java)
     }
-
-    private lateinit var viewModel: ImageDetailsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,18 +28,17 @@ class ImageDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageModel = arguments!!.getSerializable(IMAGE_MODEL) as ImageModel
-        full_size_image.loadImage(imageModel.fullSizeUrl)
-        user_name_text_details_fragment.text = imageModel.userName
-        likes_count_details_fragment.text = imageModel.likes.toString()
-        favourites_count_details_fragment.text = imageModel.favourites.toString()
-        comments_count_details_fragment.text = imageModel.comments.toString()
-        tags_details_fragment.text = imageModel.tags
+        viewModel.selectedImage.let {imageModel ->
+            view.findViewById<ImageView>(R.id.full_size_image).loadImage(imageModel.fullSizeUrl)
+            view.findViewById<TextView>(R.id.user_name_text_details_fragment).text =
+                imageModel.userName
+            view.findViewById<TextView>(R.id.likes_count_details_fragment).text =
+                imageModel.likes.toString()
+            view.findViewById<TextView>(R.id.favourites_count_details_fragment).text =
+                imageModel.favourites.toString()
+            view.findViewById<TextView>(R.id.comments_count_details_fragment).text =
+                imageModel.comments.toString()
+            view.findViewById<TextView>(R.id.tags_details_fragment).text = imageModel.tags
+        }
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ImageDetailsViewModel::class.java)
-    }
-
 }

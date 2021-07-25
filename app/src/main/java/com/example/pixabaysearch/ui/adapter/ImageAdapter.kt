@@ -2,20 +2,22 @@ package com.example.pixabaysearch.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pixabaysearch.R
-import com.example.pixabaysearch.ui.uiModel.ImageModel
+import com.example.pixabaysearch.ui.model.ImageModel
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {
+class ImageAdapter @Inject constructor() :
+    RecyclerView.Adapter<ImageItemViewHolder>() {
 
-    private var imageSelectedForExpantion = MutableLiveData<ImageModel>()
-    fun observeSelectedForExpantion(): LiveData<ImageModel> = imageSelectedForExpantion
+    private var onClickListener: ((ImageModel) -> Unit)? = null
 
-    var renderables: List<ImageModel> by Delegates.observable(emptyList()) { _, _, _ ->
+    fun setOnClickListener(onClickListener: (ImageModel) -> Unit) {
+        this.onClickListener = onClickListener;
+    }
+
+    var data: List<ImageModel> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
@@ -24,21 +26,13 @@ class ImageAdapter : RecyclerView.Adapter<ImageItemViewHolder>() {
         return ImageItemViewHolder(view)
     }
 
-    override fun getItemCount(): Int = renderables.size
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
-        holder.bind(renderables[position])
-        holder.item.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(it.context).also { builder ->
-                builder.setTitle("Open image")
-                builder.setMessage("Do you want to see more details?")
-
-                builder.setPositiveButton("Yes") { dialog, which ->
-                    this.imageSelectedForExpantion.value = renderables[position]
-                    dialog.dismiss()}
-                builder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-            }.create()
-            alertDialog.show()
+        val item = data[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            onClickListener?.let { it1 -> it1(item) }
         }
     }
 
