@@ -2,7 +2,6 @@ package com.example.pixabaysearch.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -11,12 +10,16 @@ import com.example.pixabaysearch.ui.uiModel.ImageModel
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class ImageAdapter @Inject constructor() : RecyclerView.Adapter<ImageItemViewHolder>() {
+class ImageAdapter @Inject constructor() :
+    RecyclerView.Adapter<ImageItemViewHolder>() {
 
-    private var imageSelectedForExpantion = MutableLiveData<ImageModel>()
-    fun observeSelectedForExpantion(): LiveData<ImageModel> = imageSelectedForExpantion
+    private var onClickListener: ((ImageModel) -> Unit)? = null
 
-    var renderables: List<ImageModel> by Delegates.observable(emptyList()) { _, _, _ ->
+    fun setOnClickListener(onClickListener: (ImageModel) -> Unit) {
+        this.onClickListener = onClickListener;
+    }
+
+    var data: List<ImageModel> by Delegates.observable(emptyList()) { _, _, _ ->
         notifyDataSetChanged()
     }
 
@@ -25,10 +28,14 @@ class ImageAdapter @Inject constructor() : RecyclerView.Adapter<ImageItemViewHol
         return ImageItemViewHolder(view)
     }
 
-    override fun getItemCount(): Int = renderables.size
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
-        holder.bind(renderables[position])
+        val item = data[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            onClickListener?.let { it1 -> it1(item) }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

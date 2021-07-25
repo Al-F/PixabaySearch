@@ -1,14 +1,14 @@
 package com.example.pixabaysearch.ui.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pixabaysearch.data.PixabayResponse
 import com.example.pixabaysearch.data.Resource
 import com.example.pixabaysearch.data.repository.NetworkHelper
 import com.example.pixabaysearch.data.repository.PixabayRepository
+import com.example.pixabaysearch.ui.uiModel.ImageModel
+import com.example.pixabaysearch.ui.uiModel.ImageModelMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,22 +16,27 @@ import javax.inject.Inject
 @HiltViewModel
 class ImageListViewModel @Inject constructor(
     private val repository: PixabayRepository,
+    private val modelMapper: ImageModelMapper,
     networkHelper: NetworkHelper
 ) : ViewModel() {
-    private val _response = MutableLiveData<Resource<PixabayResponse>>()
-    val response: LiveData<Resource<PixabayResponse>>
+    private val _response = MutableLiveData<Resource<List<ImageModel>>>()
+    val response: LiveData<Resource<List<ImageModel>>>
         get() = _response
 
+    var selectedImage: ImageModel = ImageModel()
+
     init {
-        _response.postValue(Resource.loading(null))
+        _response.postValue(Resource.loading(emptyList()))
 
         if (networkHelper.isNetworkConnected()) {
             fetchImages("cat")
         } else {
             _response.postValue(
                 Resource.error(
-                    data = null,
-                    message = CONNECTION_ERROR_MSG))
+                    data = emptyList(),
+                    message = CONNECTION_ERROR_MSG
+                )
+            )
         }
     }
 
@@ -39,10 +44,11 @@ class ImageListViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _response.value = Resource.success(
-                    data = repository.getListOfImages(searchQuery))
+                    data = modelMapper.map(repository.getListOfImages(searchQuery))
+                )
             } catch (exception: Exception) {
                 _response.value = Resource.error(
-                    data = null,
+                    data = emptyList(),
                     message = exception.message ?: GENERAL_ERROR_MSG
                 )
             }
@@ -50,12 +56,7 @@ class ImageListViewModel @Inject constructor(
     }
 
     companion object {
-        private val TAG = "MYLOG MainVM"
         const val CONNECTION_ERROR_MSG = "Network is down. Please check your internet connection!"
         const val GENERAL_ERROR_MSG = "Error Occurred!"
-
-        fun LOGGING_DEBUG(s: String) = Log.d(TAG, s)
-        fun LOGGING_ERROR(s: String) = Log.e(TAG, s)
-        fun LOGGING_INFO(s: String) = Log.i(TAG, s)
     }
 }

@@ -3,4 +3,5 @@
     <string name="search">Search</string>
     <string name="search_hint">What are you looking for?</string>
     <string name="search_empty_warning">Have you forgot what you were looking for?</string>
+    <string name="general_error_message">Ouch! Something went wrong...</string>
 </resources>
